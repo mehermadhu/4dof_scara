@@ -1,6 +1,7 @@
-# ROS2 MoveIt CANopen Example
+# ROS2 CANOpen 4 DOF scara Control driver
 
-This repository implements the use of different ROS2 packages to control a CANopen-based robot in a simulated environment.
+This repository implements ROS2 control over ROS2 CANopen stack to control
+4 DOF scara robot.
 
 ## Dependencies
 
@@ -9,15 +10,20 @@ This repository implements the use of different ROS2 packages to control a CANop
 
 ## Build
 
+### create project directory
+```bash
+mkdir scara_ctrl
+```
 ### Clone this repository
 
 ```bash
-git clone --recurse-submodules git://github.com:lucasmluza/ros2_moveit_canopen_example.git
+git clone --recurse-submodules https://github.com/mehermadhu/4dof_scara.git'
 ```
 
 ### Build the image
 
 ```bash
+cd 
 docker compose build
 ```
 
