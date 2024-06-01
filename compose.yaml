@@ -3,14 +3,16 @@ version: "3.8"
 services:
   ros2_humble:
     build: ./
-    image: ros2_humble_demo
+    image: ros_humble_scara_control
     command: /bin/bash
     tty: true
+    privileged: true
     stdin_open: true
     environment:
       DISPLAY: $DISPLAY
     network_mode: "host"
-    volumes:
+    volumes:  
+      - /dev:/dev
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ./canopen:/home/ros2_user/ws_ros/src/canopen
       - ./canopen_402_driver:/home/ros2_user/ws_ros/src/canopen_402_driver
@@ -26,4 +28,6 @@ services:
       - ./canopen_utils:/home/ros2_user/ws_ros/src/canopen_utils
       - ./lely_core_libraries:/home/ros2_user/ws_ros/src/lely_core_libraries
       - ./4dof_scara:/home/ros2_user/ws_ros/src/4_dof_scara
+      - ./my_rviz_plugin:/home/ros2_user/ws_ros/src/my_rviz_plugin
+
       

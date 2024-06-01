@@ -12,7 +12,7 @@ RUN apt update \
     && apt install -y \
     sudo \
     software-properties-common \
-    locales \ 
+    locales \
     curl \
     python3 \
     python3-pip \
@@ -24,7 +24,6 @@ RUN locale-gen en_US en_US.UTF-8 \
     && update-locale LANG=en_US.UTF-8
 
 ENV LANG en_US.UTF-8 
-
 ENV LC_ALL en_US.UTF-8
 
 # Add the ROS2 apt
@@ -47,7 +46,19 @@ RUN apt update \
     python3-rosdep \
     python3-colcon-common-extensions \
     can-utils \
+    python3-pyqt5 \
+    python3-pyqt5.sip \
     && rm -rf /var/lib/apt/lists/*
+
+# Install ROS 2 Python client library
+RUN apt-get update && apt-get install -y ros-humble-rclpy && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install additional Python dependencies
+RUN pip3 install -U setuptools
+
+# Initialize rosdep
+RUN rosdep init
 
 # Add non-root user
 RUN addgroup --gid 1000 ros2_user \
@@ -58,13 +69,25 @@ RUN addgroup --gid 1000 ros2_user \
 
 USER ros2_user
 
+# Run rosdep update as non-root user
+RUN rosdep update
+
 # Export ros2 setup.bash to .bashrc to ease the tools access
 RUN echo "source /opt/ros/humble/setup.bash\n" >> /home/ros2_user/.bashrc \
     && echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash\n" >> /home/ros2_user/.bashrc
 
-# Avoid "QStandardPaths: XDG_RUNTIME_DIR not set" warning when runing, e.g., rviz2
+# Avoid "QStandardPaths: XDG_RUNTIME_DIR not set" warning when running, e.g., rviz2
 ENV XDG_RUNTIME_DIR=/tmp/runtime-ros2_user
 
-RUN mkdir -p /home/ros2_user/ws_ros/src
+# Copy the entire workspace to the container
+COPY . /home/ros2_user/ws_ros
 
 WORKDIR /home/ros2_user/ws_ros
+
+# Install dependencies using rosdep
+RUN source /opt/ros/humble/setup.bash && rosdep install --from-paths src --ignore-src -r -y
+
+# Build the workspace
+RUN source /opt/ros/humble/setup.bash && colcon build
+
+CMD ["bash"]

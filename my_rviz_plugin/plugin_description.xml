@@ -1,0 +1,8 @@
+<library path="lib/my_rviz_plugin">
+    <class name="my_rviz_plugin/JointValuesPanel"
+           type="my_rviz_plugin::JointValuesPanel"
+           base_class_type="rviz_common::Panel">
+      <description>RViz panel to publish joint values</description>
+    </class>
+  </library>
+  
