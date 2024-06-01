@@ -14,3 +14,4 @@ services:
     volumes:  
       - /dev:/dev
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - launch_app.sh:/home/ros2_user/ws_ros

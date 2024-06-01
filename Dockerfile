@@ -47,6 +47,7 @@ RUN apt update \
     python3-rosdep \
     python3-colcon-common-extensions \
     can-utils \
+    nano \
     && rm -rf /var/lib/apt/lists/*
 
 # Add non-root user
