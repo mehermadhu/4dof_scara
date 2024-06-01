@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  ros2_humble:
+    build: ./
+    image: ros2_humble_demo
+    command: /bin/bash
+    tty: true
+    stdin_open: true
+    environment:
+      DISPLAY: $DISPLAY
+    network_mode: "host"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./canopen:/home/ros2_user/ws_ros/src/canopen
+      - ./canopen_402_driver:/home/ros2_user/ws_ros/src/canopen_402_driver
+      - ./canopen_base_driver:/home/ros2_user/ws_ros/src/canopen_base_driver
+      - ./canopen_core:/home/ros2_user/ws_ros/src/canopen_core
+      - ./canopen_fake_slaves:/home/ros2_user/ws_ros/src/canopen_fake_slaves
+      - ./canopen_interfaces:/home/ros2_user/ws_ros/src/canopen_interfaces
+      - ./canopen_master_driver:/home/ros2_user/ws_ros/src/canopen_master_driver
+      - ./canopen_proxy_driver:/home/ros2_user/ws_ros/src/canopen_proxy_driver
+      - ./canopen_ros2_control:/home/ros2_user/ws_ros/src/canopen_ros2_control
+      - ./canopen_ros2_controllers:/home/ros2_user/ws_ros/src/canopen_ros2_controllers
+      - ./canopen_tests:/home/ros2_user/ws_ros/src/canopen_tests
+      - ./canopen_utils:/home/ros2_user/ws_ros/src/canopen_utils
+      - ./lely_core_libraries:/home/ros2_user/ws_ros/src/lely_core_libraries
+      - ./4dof_scara:/home/ros2_user/ws_ros/src/4_dof_scara
+      
