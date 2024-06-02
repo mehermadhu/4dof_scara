@@ -10,12 +10,6 @@ __pycache__/
 *.pyd
 *.pyc
 
-# Ignore CMake and Colcon metadata
-CMakeCache.txt
-CMakeFiles/
-cmake_install.cmake
-*.cmake
-Makefile
 
 # Ignore temporary files
 *.save
