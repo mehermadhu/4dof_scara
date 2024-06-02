@@ -24,7 +24,6 @@ Makefile
 *~
 
 # Ignore all text files, markdown files might be excluded if you use them
-*.txt
 
 # Ignore package-lock directories, not used in ROS but common in general
 node_modules/
