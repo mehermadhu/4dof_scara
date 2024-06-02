@@ -6,12 +6,12 @@ services:
     image: ros_humble_scara_control
     command: /bin/bash
     tty: true
-    privileged: true
+    privileged: true # Consider security implications of this setting
     stdin_open: true
     environment:
       DISPLAY: $DISPLAY
     network_mode: "host"
     volumes:  
-      - /dev:/dev
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./launch_app.sh:/home/ros2_user/ws_ros/launch_app.sh
+      - /dev:/dev  # Necessary for direct device access, ensure security
+      - /tmp/.X11-unix:/tmp/.X11-unix  # For X11 forwarding
+      - ./launch_app.sh:/home/ros2_user/ws_ros/launch_app.sh  # Ensure this script is executable

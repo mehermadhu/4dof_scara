@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="scara_robot">
+    <!-- Include the macro definitions for the robot's physical structure and control configuration -->
+    <xacro:include filename="$(find canopen_tests)/urdf/scara_controller/scara_controller.macro.xacro"/>
+    <xacro:include filename="$(find canopen_tests)/urdf/scara_controller/scara_controller.ros2_control.xacro"/>
+
+    <!-- Define a 'world' link as the fixed base -->
+    <link name="world" />
+
+    <!-- Initialize the robot's physical structure with the appropriate macro -->
+    <xacro:scara_control_robot
+        name="scara_robot"
+        prefix=""
+        parent="world"
+        >
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:scara_control_robot>
+
+    <!-- Initialize the robot's control system with the appropriate macro -->
+    <xacro:scara_control_control
+        name="scara_robot"
+        prefix=""
+        bus_config="$(find canopen_tests)/config/robot_control/bus.yml"
+        master_config="$(find canopen_tests)/config/robot_control/master.dcf"
+        can_interface_name="vcan0"
+        master_bin="$(find canopen_tests)/bin/can_master" />
+</robot>

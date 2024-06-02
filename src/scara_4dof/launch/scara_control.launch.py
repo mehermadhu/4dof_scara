@@ -16,8 +16,8 @@ def generate_launch_description():
                 [
                     FindPackageShare("scara_4dof"),
                     "urdf",
-                    "robot_controller",
-                    "robot_controller.urdf.xacro",
+                    "scara_controller",
+                    "scara_controller.urdf.xacro",
                 ]
             ),
         ]
@@ -77,6 +77,24 @@ def generate_launch_description():
             "slave_config": slave_config,
         }.items(),
     )
+
+    slave_node_3 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(slave_launch),
+        launch_arguments={
+            "node_id": "4",
+            "node_name": "slave_node_3",
+            "slave_config": slave_config,
+        }.items(),
+    )
+    
+    slave_node_4 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(slave_launch),
+        launch_arguments={
+            "node_id": "5",
+            "node_name": "slave_node_4",
+            "slave_config": slave_config,
+        }.items(),
+    )
     
     rviz2_node = Node(
         package='rviz2',
@@ -99,6 +117,8 @@ def generate_launch_description():
         robot_state_publisher_node,
         slave_node_1,
         slave_node_2,
+        slave_node_3,
+        slave_node_4,
         rviz2_node,
         gui_publisher_node
     ]

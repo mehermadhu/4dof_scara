@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="scara_control_robot" params="
+        name
+        prefix
+        parent
+        *origin
+        " >
+
+    <!-- Link 1 - Base link -->
+    <link name="${prefix}link1">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.2" length="0.2"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <!-- Link 2 - First moving link -->
+    <link name="${prefix}link2">
+        <visual>
+            <origin xyz="0 0 0.1" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.15" length="0.4"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <!-- Link 3 -->
+    <link name="${prefix}link3">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.3"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <!-- Link 4 - End effector or tool link -->
+    <link name="${prefix}link4">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.05" length="0.2"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <!-- Base Joint - fixed to the world or parent link -->
+    <joint name="${prefix}base_joint" type="fixed">
+        <xacro:insert_block name="origin"/>
+        <parent link="${parent}"/>
+        <child link="${prefix}link1"/>
+    </joint>
+
+    <!-- Joint 1 - Prismatic joint for vertical movement -->
+    <joint name="${prefix}joint1" type="prismatic">
+        <origin xyz="0 0 0.2" rpy="0 0 0"/>
+        <parent link="${prefix}link1"/>
+        <child link="${prefix}link2"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-0.2" upper="0.4" effort="10.0" velocity="0.2"/>
+    </joint>
+
+    <!-- Joint 2 - First revolute joint -->
+    <joint name="${prefix}joint2" type="revolute">
+        <origin xyz="0 0 0.4" rpy="0 0 0"/>
+        <parent link="${prefix}link2"/>
+        <child link="${prefix}link3"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="10.0" velocity="1.0"/>
+    </joint>
+
+    <!-- Joint 3 - Second revolute joint -->
+    <joint name="${prefix}joint3" type="revolute">
+        <origin xyz="0 0 0.3" rpy="0 0 0"/>
+        <parent link="${prefix}link3"/>
+        <child link="${prefix}link4"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="10.0" velocity="1.0"/>
+    </joint>
+
+    <!-- Joint 4 - Third revolute joint -->
+    <joint name="${prefix}joint4" type="revolute">
+        <origin xyz="0 0 0.2" rpy="0 0 0"/>
+        <parent link="${prefix}link4"/>
+        <child link="${prefix}link4_end_effector"/> <!-- Optionally add an end effector link -->
+        <axis xyz="0 0 1"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="10.0" velocity="1.0"/>
+    </joint>
+
+    </xacro:macro>
+</robot>
