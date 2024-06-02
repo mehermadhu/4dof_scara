@@ -1,5 +1,6 @@
-#!bin/bash
+#!/bin/bash
 sudo apt update
+sudo apt install nano
 sudo rosdep init 
 rosdep update
 rosdep install -i --from-paths src -y
