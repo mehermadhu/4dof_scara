@@ -16,30 +16,30 @@ Edit OS customization then click yes to proceed further
 ## Setup CAN interface 
 
 Follow https://www.waveshare.com/wiki/RS485_CAN_HAT to setup the CAN interface.
-#bcm2835
-#Open the Raspberry Pi terminal and run the following command
+####bcm2835
+####Open the Raspberry Pi terminal and run the following command
 wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.71.tar.gz
 tar zxvf bcm2835-1.71.tar.gz 
 cd bcm2835-1.71/
 sudo ./configure && sudo make && sudo make check && sudo make install
-# For more, you can refer to the official website at: http://www.airspayce.com/mikem/bcm2835/
+####For more, you can refer to the official website at: http://www.airspayce.com/mikem/bcm2835/
 
-#wiringPi
+####wiringPi
 #Open the Raspberry Pi terminal and run the following command
 cd
 sudo apt-get install wiringpi
-#For Raspberry Pi systems after May 2019 (earlier than that can be executed without), an upgrade may be required:
+####For Raspberry Pi systems after May 2019 (earlier than that can be executed without), an upgrade may be required:
 wget https://project-downloads.drogon.net/wiringpi-latest.deb
 sudo dpkg -i wiringpi-latest.deb
 gpio -v
-# Run gpio -v and version 2.52 will appear, if it doesn't it means there was an installation error
+#### Run gpio -v and version 2.52 will appear, if it doesn't it means there was an installation error
 
-# Bullseye branch system using the following command:
+#### Bullseye branch system using the following command:
 git clone https://github.com/WiringPi/WiringPi
 cd WiringPi
 . /build
 gpio -v
-# Run gpio -v and version 2.70 will appear, if it doesn't it means there was an installation error
+#### Run gpio -v and version 2.70 will appear, if it doesn't it means there was an installation error
 
 ```bash
 sudo modprobe vcan
@@ -50,7 +50,7 @@ candump can0 201:7ff  # 201:7ff to monitor position commands, 181:7FF for feedba
 ```
 Replace vcan0 with can0 once real hardware is available and configured properly.
 
-### Clone repository
+#### Clone repository
 ```bash
 git clone --recurse-submodules https://github.com/mehermadhu/4dof_scara.git'
 cd 4dof_scara
