@@ -17,14 +17,14 @@ def generate_launch_description():
                     FindPackageShare("scara_4dof"),
                     "urdf",
                     "scara_controller",
-                    "scara_controller.urdf.xacro",
+                    "robot_controller.urdf.xacro",
                 ]
             ),
         ]
     )
     robot_description = {"robot_description": robot_description_content}
     robot_control_config = PathJoinSubstitution(
-        [FindPackageShare("scara_4dof"), "config/robot_control", "ros2_controllers.yaml"]
+        [FindPackageShare("scara_4dof"), "config/scara_control", "ros2_controllers.yaml"]
     )
 
     control_node = Node(
@@ -54,7 +54,7 @@ def generate_launch_description():
     )
 
     slave_config = PathJoinSubstitution(
-        [FindPackageShare("scara_4dof"), "config/robot_control", "cia402_slave.eds"]
+        [FindPackageShare("scara_4dof"), "config/scara_control", "cia402_slave.eds"]
     )
 
     slave_launch = PathJoinSubstitution(

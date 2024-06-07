@@ -1,5 +1,9 @@
 #!/bin/bash
 sudo add-apt-repository -y universe
+
+sudo systemctl set-default graphical.target
+#sudo apt install -y xserver-xorg  # not required for ubuntu 20.03
+sudo apt-get install -y x11-xserver-utils
 sudo apt update
 sudo apt -y upgrade
 sudo rosdep init 

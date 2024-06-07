@@ -6,7 +6,7 @@ LABEL description="A Docker Image for developing applications based on the ROS2"
 LABEL version="v0.1"
 
 # Set non-interactive frontend (avoid some prompts)
-ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update \
     && apt upgrade -y \
@@ -51,12 +51,11 @@ RUN addgroup --gid 1000 ros2_user \
 USER ros2_user
 RUN rosdep update
 # Set up the ROS2 environment by default
-RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc \
-    && echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc
+RUN echo "source /opt/ros/humble/setup.bash" >> /home/ros2_user/.bashrc \
+    && echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> /home/ros2_user/.bashrc
 
 # Set directory to avoid runtime warning in GUI tools like RViz2
 ENV XDG_RUNTIME_DIR=/tmp/runtime-ros2_user
-RUN mkdir -p "$XDG_RUNTIME_DIR" && chmod 700 "$XDG_RUNTIME_DIR"
 
 # Prepare workspace
 RUN mkdir -p /home/ros2_user/ws_ros/src

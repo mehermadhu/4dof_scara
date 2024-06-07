@@ -53,3 +53,7 @@ nodes:
     node_id: 2
   joint_2:
     node_id: 3
+  joint_3:
+    node_id: 4
+  joint_4:
+    node_id: 5

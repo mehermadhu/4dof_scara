@@ -5,8 +5,8 @@ This repository implements ROS2 control over ROS2 CANopen stack to control
 ## OS installation
 Ubuntu server 20.04
 use Raspberry Pi Imager
-Edit OS customization then click yes to proceed further
-
+Edit OS customization to enter wifi credentials and user credentials then click yes to proceed further
+Power on Pi and wait for 5 mins. 
 
 ## Dependencies
 
@@ -28,7 +28,9 @@ Replace vcan0 with can0 once real hardware is available and configured properly.
 
 ### Clone repository
 ```bash
-git clone --recurse-submodules https://github.com/mehermadhu/4dof_scara.git'
+sudo apt update
+sudo apt install -y git
+git clone --recurse-submodules https://github.com/mehermadhu/4dof_scara.git
 cd 4dof_scara
 
 ```

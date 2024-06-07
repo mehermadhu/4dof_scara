@@ -13,7 +13,7 @@ find_package(lely_core_libraries REQUIRED)
 cogen_dcf(robot_control)
 
 install(DIRECTORY
-launch urdf
+launch urdf config
 DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
