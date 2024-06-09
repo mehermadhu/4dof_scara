@@ -19,7 +19,7 @@ cogen_dcf(cia402_diagnostics)
 generate_dcf(simple_lifecycle)
 cogen_dcf(simple_diagnostics)
 generate_dcf(robot_control)
-generate_dcf(scara_4dof_control)
+generate_dcf(scara_control)
 
 install(DIRECTORY
   launch rviz urdf launch_tests

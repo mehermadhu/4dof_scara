@@ -61,8 +61,9 @@ cd 4dof_scara
 
 ## Install Docker
 ```bash
-chmod +x docker_install.sh
-./docker_install.sh
+sudo snap install docker
+sudo usermod -aG docker $USER
+
 ```
 ### To Build Image if not built yet, to Create, start, and execute the container
 
@@ -78,7 +79,35 @@ sudo docker compose up -d
 chmod +x launch_app.sh  # only first run
 
 sudo docker compose exec ros2_humble bash
-./launch_app.sh
+```
+In the bash terminal of Docker run following commands
+```
+sudo apt update
+sudo apt -y upgrade
+sudo rosdep init 
+rosdep update
+rosdep install -i --from-paths src -y
+colcon build
+source install/setup.bash
+# disable power saving and screen blank situations for ubuntu 21.04 onwards login with xorg desktop manager no waynad
+xset s off
+xset -dpms
+xset s noblank
+
+ros2 launch scara_4dof robot_control.launch.py
 
 ```
+
+### Notes:
+- To develop new controller do it inside can_open_tests package and build the whole package after mentioning the package name in CMakeLists file of canopen_tests package in the 
+generate_dcf command.
+
+- For remote desktop to share screen run command 
+```
+xhost +
+```
+in the remote computer. Not in docker terminal. 
+ 
+ TODO:
+ - xforward settings for client and host
 
