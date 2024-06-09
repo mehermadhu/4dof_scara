@@ -19,7 +19,7 @@ defaults:
     - {index: 0x60C2, sub_index: 2, value: -3} # Set base 10-3s
     - {index: 0x6081, sub_index: 0, value: 1000}
     - {index: 0x6083, sub_index: 0, value: 2000}
-    - {index: 0x6060, sub_index: 0, value: 7}
+    - {index: 0x6060, sub_index: 0, value: 1}
   tpdo: # TPDO needed statusword, actual velocity, actual position, mode of operation
     1:
       enabled: true
@@ -52,4 +52,3 @@ nodes:
   joint_1:
     node_id: 2
   joint_2:
-    node_id: 3

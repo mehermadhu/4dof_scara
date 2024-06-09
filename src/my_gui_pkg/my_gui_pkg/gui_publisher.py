@@ -38,7 +38,7 @@ class GUIPublisher(Node):
     def publish_values(self):
         msg = Float64MultiArray()
         try:
-            msg.data = [float(entry.text()) for entry in self.entries[:2]]
+            msg.data = [float(entry.text()) for entry in self.entries]
             self.publisher.publish(msg)
             self.get_logger().info(f'Published: {msg.data}')
         except ValueError:

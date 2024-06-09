@@ -48,17 +48,18 @@ RUN addgroup --gid 1000 ros2_user \
     && chmod -R 775 /home/ros2_user \
     && chown -R ros2_user:ros2_user /home/ros2_user
 
+# Set directory to avoid runtime warning in GUI tools like RViz2
+ENV XDG_RUNTIME_DIR=/tmp/runtime-ros2_user
+ENV LIBGL_ALWAYS_SOFTWARE=1
+
 USER ros2_user
 RUN rosdep update
 # Set up the ROS2 environment by default
 RUN echo "source /opt/ros/humble/setup.bash" >> /home/ros2_user/.bashrc \
     && echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> /home/ros2_user/.bashrc
 
-# Set directory to avoid runtime warning in GUI tools like RViz2
-ENV XDG_RUNTIME_DIR=/tmp/runtime-ros2_user
-
 # Prepare workspace
 RUN mkdir -p /home/ros2_user/ws_ros/src
-COPY ./src /home/ros2_user/ws_ros/src
+#COPY ./src /home/ros2_user/ws_ros/src
 # Set workspace directory
 WORKDIR /home/ros2_user/ws_ros

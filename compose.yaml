@@ -11,9 +11,11 @@ services:
     environment:
       DISPLAY: $DISPLAY
     network_mode: "host"
-    volumes:  
+    volumes:
+      - ./src:/home/ros2_user/ws_ros/src  
       - ros2_ws:/home/ros2_user/ws_ros
       - ros2_install:/opt/ros
+      - rosdep_data:/etc/ros/rosdep
       - /dev:/dev  # Necessary for direct device access, ensure security
       - /tmp/.X11-unix:/tmp/.X11-unix  # For X11 forwarding
       - ./launch_app.sh:/home/ros2_user/ws_ros/launch_app.sh  # Ensure this script is executable
@@ -21,4 +23,6 @@ volumes:
   ros2_ws:
     driver: local
   ros2_install:
+    driver: local
+  rosdep_data:
     driver: local

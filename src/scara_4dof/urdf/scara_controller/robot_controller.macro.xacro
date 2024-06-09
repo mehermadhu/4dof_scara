@@ -40,7 +40,7 @@
             </geometry>
         </visual>
     </link>
-    <!-- Adding link5 to fix the error -->
+
     <link name="${prefix}link5">
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -56,7 +56,7 @@
         <child link="${prefix}link1"/>
     </joint>
     
-    <joint name="${prefix}joint1" type="prismatic">
+    <joint name="${prefix}joint1" type="revolute">
         <parent link="${prefix}link1"/>
         <child link="${prefix}link2"/>
         <origin xyz="0 0 0.5" rpy="0 0 0"/>

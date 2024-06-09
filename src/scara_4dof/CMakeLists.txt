@@ -11,9 +11,8 @@ find_package(canopen REQUIRED)
 find_package(lely_core_libraries REQUIRED)
 
 cogen_dcf(robot_control)
-
 install(DIRECTORY
-launch urdf config
+launch urdf
 DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
