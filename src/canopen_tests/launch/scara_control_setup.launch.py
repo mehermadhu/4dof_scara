@@ -124,14 +124,14 @@ def generate_launch_description():
         }.items(),
     )
     
-    slave_node_4 = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(slave_launch),
-        launch_arguments={
-            "node_id": "5",
-            "node_name": "slave_node_4",
-            "slave_config": slave_config,
-        }.items(),
-    )
+    # slave_node_4 = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(slave_launch),
+    #     launch_arguments={
+    #         "node_id": "5",
+    #         "node_name": "slave_node_4",
+    #         "slave_config": slave_config,
+    #     }.items(),
+    # )
     nodes_to_start = [
         control_node,
         joint_state_broadcaster_spawner,
@@ -141,7 +141,7 @@ def generate_launch_description():
         slave_node_1,
         slave_node_2,
         slave_node_3,
-        slave_node_4,
+        # slave_node_4,
         rviz_node,
         gui_publisher_node
 

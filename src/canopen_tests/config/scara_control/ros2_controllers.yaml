@@ -16,7 +16,7 @@ robot_controller:
       - joint1
       - joint2
       - joint3
-      - joint4
+      # - joint4
     operation_mode: 1
     command_poll_freq: 5
 
@@ -26,7 +26,7 @@ forward_position_controller:
       - joint1
       - joint2
       - joint3
-      - joint4
+      # - joint4
     interface_name: position
 
 # joint_trajectory_controller:

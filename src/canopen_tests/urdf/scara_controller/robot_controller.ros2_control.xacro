@@ -28,10 +28,10 @@
                 <param name="device_name">joint_3</param>
                 <state_interface name="position" />
             </joint>
-            <joint name="${prefix}joint4">
+            <!-- <joint name="${prefix}joint4">
                 <param name="device_name">joint_4</param>
                 <state_interface name="position" />
-            </joint>
+            </joint> -->
         </ros2_control>
     </xacro:macro>
 </robot>
