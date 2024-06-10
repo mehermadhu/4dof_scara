@@ -111,3 +111,40 @@ in the remote computer. Not in docker terminal.
  TODO:
  - xforward settings for client and host
 
+###CAN driver setting
+```
+sudo nano /boot/config.txt
+```
+```
+dtparam=spi=on
+dtoverlay=mcp2515-can0,oscillator=12000000,interrupt=25,spimaxfrequency=2000000
+```
+###CAN bus setting
+```
+sudo ip link set can0 up type can bitrate 1000000
+sudo ifconfig can0 txqueuelen 65536
+```
+
+###team viewer installation
+```
+sudo apt-get remove teamviewer
+sudo apt-get purge teamviewer
+sudo apt-get autoremove
+
+wget https://download.teamviewer.com/download/linux/teamviewer-host_arm64.deb
+sudo dpkg -i teamviewer-host_arm64.deb
+sudo apt-get install -f -y
+sudo teamviewer daemon start
+systemctl enable teamviewerd
+sudo reboot
+```
+#add to startup applications
+```
+sh -c "sudo teamviewer --daemon start && teamviewer" on startup applications
+```
+###disable waynad
+```
+sudo nano /etc/gdm3/custom.conf
+WaylandEnable=false
+```
+
