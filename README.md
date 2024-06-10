@@ -123,8 +123,13 @@ dtoverlay=mcp2515-can0,oscillator=12000000,interrupt=25,spimaxfrequency=2000000
 ```
 sudo ip link set can0 up type can bitrate 1000000
 sudo ifconfig can0 txqueuelen 65536
+reboot
 ```
+### CAN driver verification
 
+```
+dmesg | grep -i '\(can\|spi\)'
+```
 ### team viewer installation
 ```
 sudo apt-get remove teamviewer
