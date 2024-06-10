@@ -153,3 +153,7 @@ sudo nano /etc/gdm3/custom.conf
 WaylandEnable=false
 ```
 
+### for USB CAN of ch341-uart chip on Ubuntu 22.04 brl keyboard drivers will interfere
+'''
+sudo apt remove --purge brltty
+'''
