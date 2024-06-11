@@ -156,4 +156,13 @@ WaylandEnable=false
 ### for USB CAN of ch341-uart chip on Ubuntu 22.04 brl keyboard drivers will interfere
 '''
 sudo apt remove --purge brltty
+sudo usermod -aG netdev $USER
+sudo usermod -aG dailout $USER
+sudo modeprob can-dev can-raw
+
+'''
+sudo ip link set can0 down  # Ensure changes are applied cleanly
+sudo ip link set can0 type can bitrate 50000
+sudo ip link set can0 txqueuelen 1000  # if less then no permission error comes
+sudo ip link set can0 up
 '''
