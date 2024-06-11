@@ -33,7 +33,7 @@ TEST(NodeCanopenBasicMaster, test_good_sequence_advanced)
   rclcpp::Parameter container_name("container_name", "none");
   rclcpp::Parameter master_dcf("master_dcf", "master.dcf");
   rclcpp::Parameter master_bin("master_bin", "");
-  rclcpp::Parameter can_interface_name("can_interface_name", "vcan0");
+  rclcpp::Parameter can_interface_name("can_interface_name", "can0");
   rclcpp::Parameter node_id("node_id", 1);
   rclcpp::Parameter timeout("non_transmit_timeout", 100);
   rclcpp::Parameter config("config", "");
@@ -69,7 +69,7 @@ TEST(NodeCanopenBasicLifecycleMaster, test_good_sequence_advanced)
   rclcpp::Parameter container_name("container_name", "none");
   rclcpp::Parameter master_dcf("master_dcf", "master.dcf");
   rclcpp::Parameter master_bin("master_bin", "");
-  rclcpp::Parameter can_interface_name("can_interface_name", "vcan0");
+  rclcpp::Parameter can_interface_name("can_interface_name", "can0");
   rclcpp::Parameter node_id("node_id", 1);
   rclcpp::Parameter timeout("non_transmit_timeout", 100);
   rclcpp::Parameter config("config", "");

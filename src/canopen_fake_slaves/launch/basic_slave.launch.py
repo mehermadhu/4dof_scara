@@ -50,7 +50,7 @@ def generate_launch_description():
 
     can_interface_name_arg = DeclareLaunchArgument(
         "can_interface_name",
-        default_value=TextSubstitution(text="vcan0"),
+        default_value=TextSubstitution(text="can0"),
         description="CAN interface to be used by mock slave.",
     )
 

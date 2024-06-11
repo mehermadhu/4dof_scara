@@ -8,7 +8,7 @@ Lifecycle Proxy Driver Test
     Package; canopen_tests
     Test file; launch_tests/test_lifecycle_proxy_driver.py
     Description; Tests nmt, sdo and lifecycle of lifecycle proxy driver
-    Prerequisites; vcan0 must be available
+    Prerequisites; can0 must be available
 
 Proxy Driver Test
 ===========================
@@ -20,4 +20,4 @@ Proxy Driver Test
     Package; canopen_tests
     Test file; launch_tests/test_proxy_driver.py
     Description; Tests nmt, sdo and lifecycle of proxy driver
-    Prerequisites; vcan0 must be available
+    Prerequisites; can0 must be available

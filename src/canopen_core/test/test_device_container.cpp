@@ -749,7 +749,7 @@ TEST_F(DeviceContainerTest, test_load_manager_lifecycle)
 
 TEST_F(DeviceContainerTest, test_configure_good)
 {
-  device_container->set_parameter(rclcpp::Parameter("can_interface_name", "vcan0"));
+  device_container->set_parameter(rclcpp::Parameter("can_interface_name", "can0"));
   device_container->set_parameter(rclcpp::Parameter("master_config", "master.dcf"));
   device_container->set_parameter(
     rclcpp::Parameter("bus_config", "bus_configs/good_master_and_two_driver.yml"));
@@ -760,7 +760,7 @@ TEST_F(DeviceContainerTest, test_configure_good)
 
 TEST_F(DeviceContainerTest, test_init)
 {
-  device_container->set_parameter(rclcpp::Parameter("can_interface_name", "vcan0"));
+  device_container->set_parameter(rclcpp::Parameter("can_interface_name", "can0"));
   device_container->set_parameter(rclcpp::Parameter("master_config", "master.dcf"));
   device_container->set_parameter(
     rclcpp::Parameter("bus_config", "bus_configs/good_master_and_two_driver.yml"));
@@ -778,7 +778,7 @@ TEST_F(DeviceContainerTest, test_init_with_fparam)
   EXPECT_CALL(*device_container, load_drivers()).WillOnce(Return(true));
   EXPECT_CALL(*device_container, load_manager()).WillOnce(Return(true));
   EXPECT_NO_THROW(device_container->init(
-    "vcan0", "master.dcf", "bus_configs/good_master_and_two_driver.yml", ""));
+    "can0", "master.dcf", "bus_configs/good_master_and_two_driver.yml", ""));
 }
 
 // TEST(ComponentLoad, test_device_container_configure)
@@ -814,7 +814,7 @@ TEST_F(DeviceContainerTest, test_init_with_fparam)
 
 //     device_container->set_parameter(Parameter("bus_config", "bus.yml"));
 //     device_container->set_parameter(Parameter("master_config", "master.dcf"));
-//     device_container->set_parameter(Parameter("can_interface_name", "vcan0"));
+//     device_container->set_parameter(Parameter("can_interface_name", "can0"));
 
 //     exec->spin_some(100ms);
 
@@ -843,7 +843,7 @@ TEST_F(DeviceContainerTest, test_init_with_fparam)
 
 //     device_container->set_parameter(Parameter("bus_config", "bus.yml"));
 //     device_container->set_parameter(Parameter("master_config", "master.dcf"));
-//     device_container->set_parameter(Parameter("can_interface_name", "vcan0"));
+//     device_container->set_parameter(Parameter("can_interface_name", "can0"));
 
 //     std::thread spinner (
 //         [exec](){

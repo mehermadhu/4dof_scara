@@ -41,8 +41,8 @@ rosdep update
 rosdep install --from-paths /opt/ros/humble/share --ignore-src --rosdistro humble -y
 
 # Handle possible missing library for rviz2
-sudo apt-get install -y libogre-1.12-dev
-sudo apt-get install --reinstall ros-humble-rviz2
+#sudo apt-get install -y libogre-1.12-dev
+#sudo apt-get install --reinstall ros-humble-rviz2
 
 # Add ROS environment to bashrc
 echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc

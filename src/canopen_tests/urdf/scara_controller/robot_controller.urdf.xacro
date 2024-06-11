@@ -17,6 +17,6 @@
         prefix=""
         bus_config="$(find canopen_tests)/config/scara_control/bus.yml"
         master_config="$(find canopen_tests)/config/scara_control/master.dcf"
-        can_interface_name="vcan0"
+        can_interface_name="can0"
         master_bin="" />
 </robot>

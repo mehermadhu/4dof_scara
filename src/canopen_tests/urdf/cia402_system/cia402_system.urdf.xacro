@@ -7,7 +7,7 @@
 
     <xacro:arg name="bus_config" default="$(find canopen_tests)/config/cia402/bus.yml"/>
     <xacro:arg name="master_config" default="$(find canopen_tests)/config/cia402/master.dcf"/>
-    <xacro:arg name="can_interface_name" default="vcan0"/>
+    <xacro:arg name="can_interface_name" default="can0"/>
     <xacro:arg name="master_bin" default=""/>
 
 

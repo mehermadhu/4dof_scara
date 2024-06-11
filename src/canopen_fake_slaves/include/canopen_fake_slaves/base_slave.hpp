@@ -28,7 +28,7 @@ public:
   {
     this->declare_parameter("node_id", 2);
     this->declare_parameter("slave_config", "slave.eds");
-    this->declare_parameter("can_interface_name", "vcan0");
+    this->declare_parameter("can_interface_name", "can0");
     this->activated.store(false);
   }
 

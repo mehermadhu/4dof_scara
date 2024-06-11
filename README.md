@@ -43,12 +43,12 @@ gpio -v
 
 ```bash
 sudo modprobe vcan
-sudo ip link add dev vcan0 type vcan
-sudo ip link set vcan0 txqueuelen 1000
-sudo ip link set up vcan0
+sudo ip link add dev can0 type vcan
+sudo ip link set can0 txqueuelen 1000
+sudo ip link set up can0
 candump can0 201:7ff  # 201:7ff to monitor position commands, 181:7FF for feedback
 ```
-Replace vcan0 with can0 once real hardware is available and configured properly.
+Replace can0 with can0 once real hardware is available and configured properly.
 
 #### Clone repository
 ```bash
