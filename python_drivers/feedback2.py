@@ -7,19 +7,18 @@ import sys
 
 # Define the CAN interface and node IDs
 CAN_INTERFACE = "can0"
-NODE_IDS = [2, 3, 4, 5, 6, 7]  # List of Node IDs for 6 motors
+NODE_IDS = [2, 3, 4]  # List of Node IDs for 6 motors
 DELAY = 0.1  # Delay in seconds for configuration
 monitoring_active = True
 
 status_words = {node_id: "0000" for node_id in NODE_IDS}
 position_values = {node_id: 0 for node_id in NODE_IDS}
 
-# Function to send CAN message
+# Function to send CAN message with padding
 def send_can_message(cob_id, data):
     cob_id_str = f"{cob_id:03X}"
-    if len(data) != 16:
-        raise ValueError(f"Data length for CAN message must be 16 hex characters, got {len(data)}")
-    command = f"cansend {CAN_INTERFACE} {cob_id_str}#{data}"
+    data_padded = data.ljust(16, '0')
+    command = f"cansend {CAN_INTERFACE} {cob_id_str}#{data_padded}"
     print(f"Sending CAN message: {command}")
     os.system(command)
 
@@ -55,7 +54,7 @@ def configure_tpdo1(node_id):
     send_can_message(cob_id, "2B18010080000000")
     time.sleep(DELAY)
     # Set COB-ID for TPDO1 (0x280 + Node-ID)
-    tpdo1_cob_id = f"{0x280 + node_id:03X}00"
+    tpdo1_cob_id = f"{0x280 + node_id:03X}"
     send_can_message(cob_id, f"2B180101{tpdo1_cob_id}")
     time.sleep(DELAY)
     # Set transmission type for TPDO1 to event-driven (0x01)
