@@ -121,8 +121,11 @@ dtoverlay=mcp2515-can0,oscillator=12000000,interrupt=25,spimaxfrequency=2000000
 ```
 ### CAN bus setting
 ```
-sudo ip link set can0 up type can bitrate 1000000
-sudo ifconfig can0 txqueuelen 65536
+sudo ip link set can0 down
+sudo ip link set can0 type can bitrate 500000
+sudo ip link set can0 txqueuelen 1000  # adjust as needed
+sudo ip link set can0 up
+
 reboot
 ```
 ### CAN driver verification
@@ -153,16 +156,27 @@ sudo nano /etc/gdm3/custom.conf
 WaylandEnable=false
 ```
 
-### for USB CAN of ch341-uart chip on Ubuntu 22.04 brl keyboard drivers will interfere
-'''
-sudo apt remove --purge brltty
-sudo usermod -aG netdev $USER
-sudo usermod -aG dailout $USER
-sudo modeprob can-dev can-raw
-
+### for spi type
 '''
 sudo ip link set can0 down  # Ensure changes are applied cleanly
 sudo ip link set can0 type can bitrate 50000
 sudo ip link set can0 txqueuelen 1000  # if less then no permission error comes
 sudo ip link set can0 up
+'''
+
+### for USB CAN of ch341-uart chip on Ubuntu 22.04 brl keyboard drivers will interfere
+'''
+sudo apt remove --purge brltty
+sudo usermod -aG netdev $USER
+sudo usermod -aG dailout $USER
+sudo modprobe can_dev
+sudo modprobe can_raw
+
+
+### for USB type
+'''
+sudo slcand -o -c -s6 /dev/ttyUSB0 can1
+sudo ifconfig can1 up
+ip -details link show can1
+
 '''
