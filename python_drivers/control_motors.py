@@ -4,7 +4,7 @@ import os
 import time
 
 # Conversion factor based on 360 degrees = 3200 pulses
-DEGREES_TO_PULSES = 3200 / 360
+DEGREES_TO_PULSES = 4000 / 360
 
 def send_can_command(command):
     print(f"Sending CAN command: {command}")
