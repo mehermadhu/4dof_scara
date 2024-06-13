@@ -29,7 +29,7 @@ def configure_rpdo1(node_id):
     time.sleep(DELAY)
     # Set COB-ID for RPDO1 (0x200 + Node-ID)
     rpdo1_cob_id = f"{0x200 + node_id:03X}00"
-    send_can_message(cob_id, f"2B14000100{rpdo1_cob_id}")
+    send_can_message(cob_id, f"2B140001{rpdo1_cob_id}")
     time.sleep(DELAY)
     # Set transmission type for RPDO1 to synchronous (0x01)
     send_can_message(cob_id, "2B14000201000000")
@@ -54,7 +54,7 @@ def configure_tpdo1(node_id):
     time.sleep(DELAY)
     # Set COB-ID for TPDO1 (0x280 + Node-ID)
     tpdo1_cob_id = f"{0x280 + node_id:03X}00"
-    send_can_message(cob_id, f"2B18010100{tpdo1_cob_id}")
+    send_can_message(cob_id, f"2B180101{tpdo1_cob_id}")
     time.sleep(DELAY)
     # Set transmission type for TPDO1 to event-driven (0x01)
     send_can_message(cob_id, "2B18010201000000")
