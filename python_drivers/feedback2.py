@@ -17,6 +17,8 @@ position_values = {node_id: 0 for node_id in NODE_IDS}
 # Function to send CAN message
 def send_can_message(cob_id, data):
     cob_id_str = f"{cob_id:03X}"
+    if len(data) != 16:
+        raise ValueError(f"Data length for CAN message must be 16 hex characters, got {len(data)}")
     command = f"cansend {CAN_INTERFACE} {cob_id_str}#{data}"
     print(f"Sending CAN message: {command}")
     os.system(command)
@@ -60,7 +62,7 @@ def configure_tpdo1(node_id):
     send_can_message(cob_id, "2B18010201000000")
     time.sleep(DELAY)
     # Optionally set inhibit time to 100ms (0x0064)
-    send_can_message(cob_id, "2B18010364000000")
+    send_can_message(cob_id, "2B18010300640000")
     time.sleep(DELAY)
     # Clear existing mappings
     send_can_message(cob_id, "2F1A010000000000")
