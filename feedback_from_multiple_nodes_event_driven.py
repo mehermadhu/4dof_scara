@@ -7,7 +7,7 @@ import sys
 
 # Define the CAN interface and node IDs
 CAN_INTERFACE = "can0"
-NODE_IDS = [2, 3, 4, 5, 6, 7]  # List of Node IDs for 6 motors
+NODE_IDS = [2, 3, 4]  # List of Node IDs for 6 motors
 DELAY = 0.5  # Delay in seconds
 monitoring_active = True
 
