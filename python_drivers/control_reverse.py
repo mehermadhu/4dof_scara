@@ -30,13 +30,15 @@ def initialize_motors():
         decel_time = int(entry_decel_time.get())
         max_speed = int(entry_max_speed.get())
 
-        if reverse_var.get():
-            max_speed = -max_speed
+
 
         accel_command_le = convert_to_little_endian(accel_time)
         decel_command_le = convert_to_little_endian(decel_time)
-        speed_command_le = convert_to_little_endian_signed(max_speed)
+        speed_command_le = convert_to_little_endian(max_speed)
 
+        if reverse_var.get():
+            max_speed = -max_speed
+            speed_command_le = convert_to_little_endian_signed(max_speed)
         for node in ['602', '603', '604']:
             send_can_command(f"{node}#2B40600000000000")  # Initialize the state
             time.sleep(0.5)
@@ -92,7 +94,7 @@ def send_position_command(is_relative):
             time.sleep(0.1)
         for node, pulse_command_le in zip(['602', '603', '604'], [pulse_command1_le, pulse_command2_le, pulse_command3_le]):
             send_can_command(f"{node}#2B406000{execute_command}000000")  # Execute motion
-            time.sleep(0.01)
+            time.sleep(0.1)
         messagebox.showinfo("Send Position Command", "Position commands sent to all motors.")
     except ValueError:
         messagebox.showerror("Invalid Input", "Please enter valid numbers for angles.")
