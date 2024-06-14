@@ -24,6 +24,9 @@ def initialize_motors():
         decel_time = int(entry_decel_time.get())
         max_speed = int(entry_max_speed.get())
 
+        if reverse_var.get():
+            max_speed = -max_speed
+
         accel_command_le = convert_to_little_endian(accel_time)
         decel_command_le = convert_to_little_endian(decel_time)
         speed_command_le = convert_to_little_endian(max_speed)
@@ -124,6 +127,11 @@ tk.Label(root, text="Maximum Speed (rpm):").pack()
 entry_max_speed = tk.Entry(root)
 entry_max_speed.insert(0, "60")
 entry_max_speed.pack(pady=5)
+
+# Checkbox for reversing motor direction
+reverse_var = tk.BooleanVar()
+reverse_checkbox = tk.Checkbutton(root, text="Reverse Motor Direction", variable=reverse_var)
+reverse_checkbox.pack(pady=5)
 
 # Input fields for relative positions
 tk.Label(root, text="Enter relative position for Motor 1 (degrees):").pack()
