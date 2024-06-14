@@ -17,6 +17,12 @@ def convert_to_little_endian(value):
     hex_value = f"{value:08X}"
     little_endian_value = ''.join([hex_value[i:i+2] for i in range(6, -1, -2)])
     return little_endian_value
+def convert_to_little_endian_signed(value):
+    if value < 0:
+        value = (1 << 32) + value
+    hex_value = f"{value:08X}"
+    little_endian_value = ''.join([hex_value[i:i+2] for i in range(6, -1, -2)])
+    return little_endian_value
 
 def initialize_motors():
     try:
@@ -29,7 +35,7 @@ def initialize_motors():
 
         accel_command_le = convert_to_little_endian(accel_time)
         decel_command_le = convert_to_little_endian(decel_time)
-        speed_command_le = convert_to_little_endian(max_speed)
+        speed_command_le = convert_to_little_endian_signed(max_speed)
 
         for node in ['602', '603', '604']:
             send_can_command(f"{node}#2B40600000000000")  # Initialize the state
@@ -82,11 +88,11 @@ def send_position_command(is_relative):
         for node, pulse_command_le in zip(['602', '603', '604'], [pulse_command1_le, pulse_command2_le, pulse_command3_le]):
             send_can_command(f"{node}#2B406000{start_command}000000")  # Prepare for motion
             time.sleep(0.1)
-            send_can_command(f"{node}#607A0000{pulse_command_le}")  # Set target position using 607Ah register
+            send_can_command(f"{node}#237A0000{pulse_command_le}")  # Set target position using 237Ah register
             time.sleep(0.1)
         for node, pulse_command_le in zip(['602', '603', '604'], [pulse_command1_le, pulse_command2_le, pulse_command3_le]):
             send_can_command(f"{node}#2B406000{execute_command}000000")  # Execute motion
-            time.sleep(0.1)
+            time.sleep(0.01)
         messagebox.showinfo("Send Position Command", "Position commands sent to all motors.")
     except ValueError:
         messagebox.showerror("Invalid Input", "Please enter valid numbers for angles.")

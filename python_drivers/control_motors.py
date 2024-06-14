@@ -81,7 +81,6 @@ def send_position_command(is_relative):
             time.sleep(0.1)
             send_can_command(f"{node}#607A0000{pulse_command_le}")  # Set target position using 607Ah register
             time.sleep(0.1)
-        for node, pulse_command_le in zip(['602', '603', '604'], [pulse_command1_le, pulse_command2_le, pulse_command3_le]):
             send_can_command(f"{node}#2B406000{execute_command}000000")  # Execute motion
             time.sleep(0.1)
         messagebox.showinfo("Send Position Command", "Position commands sent to all motors.")

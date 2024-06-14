@@ -159,7 +159,7 @@ WaylandEnable=false
 ### for spi type
 '''
 sudo ip link set can0 down  # Ensure changes are applied cleanly
-sudo ip link set can0 type can bitrate 50000
+sudo ip link set can0 type can bitrate 500000
 sudo ip link set can0 txqueuelen 1000  # if less then no permission error comes
 sudo ip link set can0 up
 '''
