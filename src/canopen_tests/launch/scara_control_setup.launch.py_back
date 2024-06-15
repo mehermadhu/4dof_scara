@@ -1,3 +1,17 @@
+#    Copyright 2022 Christoph Hellmann Santos
+#
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
@@ -26,6 +40,10 @@ def generate_launch_description():
     robot_control_config = PathJoinSubstitution(
         [FindPackageShare("canopen_tests"), "config/scara_control", "ros2_controllers.yaml"]
     )
+
+    # rviz_config_file = PathJoinSubstitution(
+    #     [FindPackageShare("canopen_tests"), "rviz", "robot_controller.rviz"]
+    # )
 
     control_node = Node(
         package="controller_manager",
@@ -58,7 +76,6 @@ def generate_launch_description():
         output="both",
         parameters=[robot_description],
     )
-
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
@@ -80,7 +97,6 @@ def generate_launch_description():
     slave_launch = PathJoinSubstitution(
         [FindPackageShare("canopen_fake_slaves"), "launch", "cia402_slave.launch.py"]
     )
-    
     slave_node_1 = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(slave_launch),
         launch_arguments={
@@ -107,42 +123,28 @@ def generate_launch_description():
             "slave_config": slave_config,
         }.items(),
     )
-
-    master_node = Node(
-        package="canopen_master_driver",
-        executable="master_node",
-        name="canopen_master",
-        output="screen",
-        parameters=[
-            {"node_id": 1},
-            {"baudrate": 500},
-            {"sync_period": 1000},
-            {"sync_window": 1000},
-            {"error_behavior": {1: 0x00}},
-            {"nmt_inhibit_time": 0},
-            {"start": True},
-            {"start_nodes": True},
-            {"start_all_nodes": False},
-            {"reset_all_nodes": False},
-            {"stop_all_nodes": False},
-            {"boot_time": 0},
-            {"heartbeat_consumer": 1},
-            {"consumer_heartbeat_time": 2000},
-        ],
-    )
-
+    
+    # slave_node_4 = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(slave_launch),
+    #     launch_arguments={
+    #         "node_id": "5",
+    #         "node_name": "slave_node_4",
+    #         "slave_config": slave_config,
+    #     }.items(),
+    # )
     nodes_to_start = [
         control_node,
         joint_state_broadcaster_spawner,
-        robot_controller_spawner,
+        # robot_controller_spawner,
         forward_position_controller_spawner,
         robot_state_publisher_node,
         slave_node_1,
         slave_node_2,
         slave_node_3,
-        master_node,
+        # slave_node_4,
         rviz_node,
         gui_publisher_node
+
     ]
 
     return LaunchDescription(nodes_to_start)

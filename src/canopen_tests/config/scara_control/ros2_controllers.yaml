@@ -28,7 +28,8 @@ forward_position_controller:
       - joint3
       # - joint4
     interface_name: position
-
+    operation_mode: 1
+    command_poll_freq: 5
 # joint_trajectory_controller:
 #   ros__parameters:
 #     joints:
