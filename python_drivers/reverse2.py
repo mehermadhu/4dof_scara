@@ -40,21 +40,21 @@ def initialize_motors():
             speed_command_le = convert_to_little_endian_signed(max_speed)
         
         for node in ['602', '603', '604']:
-            send_can_command(f"{node}#2B40600000000000")  # Shutdown command
+            send_can_command(f"{node}#2B40600000000000")  # Initialization step 0
             time.sleep(0.5)
-            send_can_command(f"{node}#23836000{accel_command_le}")  # Set acceleration time
+            send_can_command(f"{node}#2B40600006000000")  # Initialization step 1
             time.sleep(0.5)
-            send_can_command(f"{node}#23846000{decel_command_le}")  # Set deceleration time
+            send_can_command(f"{node}#2B40600007000000")  # Initialization step 2
             time.sleep(0.5)
-            send_can_command(f"{node}#23816000{speed_command_le}")  # Set maximum speed
+            send_can_command(f"{node}#2B4060000F000000")  # Initialization step 3
             time.sleep(0.5)
-            send_can_command(f"{node}#2F60600001000000")  # Switch to position mode
+            send_can_command(f"{node}#23836000{accel_command_le}")  # Set acceleration time (index 6083)
             time.sleep(0.5)
-            send_can_command(f"{node}#2B40600006000000")  # Switch on
+            send_can_command(f"{node}#23846000{decel_command_le}")  # Set deceleration time (index 6084)
             time.sleep(0.5)
-            send_can_command(f"{node}#2B40600007000000")  # Enable operation
+            send_can_command(f"{node}#23816000{speed_command_le}")  # Set maximum speed (index 6081)
             time.sleep(0.5)
-            send_can_command(f"{node}#2B4060000F000000")  # Complete enable
+            send_can_command(f"{node}#2F60600001000000")  # Switch to position mode (index 6060)
             time.sleep(0.5)
         
         messagebox.showinfo("Initialize Motors", "Motors have been initialized and are ready for operation.")
@@ -77,9 +77,9 @@ def send_position_command(is_relative):
         pulses2 = degrees_to_pulses(degrees2)
         pulses3 = degrees_to_pulses(degrees3)
 
-        pulse_command1_le = convert_to_little_endian(pulses1)
-        pulse_command2_le = convert_to_little_endian(pulses2)
-        pulse_command3_le = convert_to_little_endian(pulses3)
+        pulse_command1_le = convert_to_little_endian_signed(pulses1)
+        pulse_command2_le = convert_to_little_endian_signed(pulses2)
+        pulse_command3_le = convert_to_little_endian_signed(pulses3)
 
         if is_relative:
             start_command = "4F"
@@ -91,9 +91,9 @@ def send_position_command(is_relative):
         for node, pulse_command_le in zip(['602', '603', '604'], [pulse_command1_le, pulse_command2_le, pulse_command3_le]):
             send_can_command(f"{node}#2B406000{start_command}000000")  # Prepare for motion
             time.sleep(0.1)
-            send_can_command(f"{node}#237A0000{pulse_command_le}")  # Set target position using 237Ah register
+            send_can_command(f"{node}#237A0000{pulse_command_le}")  # Set target position using index 607A
             time.sleep(0.1)
-        for node, pulse_command_le in zip(['602', '603', '604'], [pulse_command1_le, pulse_command2_le, pulse_command3_le]):
+        for node in ['602', '603', '604']:
             send_can_command(f"{node}#2B406000{execute_command}000000")  # Execute motion
             time.sleep(0.1)
         
@@ -143,16 +143,16 @@ reverse_var = tk.BooleanVar()
 reverse_checkbox = tk.Checkbutton(root, text="Reverse Motor Direction", variable=reverse_var)
 reverse_checkbox.pack(pady=5)
 
-# Input fields for relative positions
-tk.Label(root, text="Enter  position for Motor 1 (degrees):").pack()
+# Input fields for positions
+tk.Label(root, text="Enter position for Motor 1 (degrees):").pack()
 entry_motor1 = tk.Entry(root)
 entry_motor1.pack(pady=5)
 
-tk.Label(root, text="Enter  position for Motor 2 (degrees):").pack()
+tk.Label(root, text="Enter position for Motor 2 (degrees):").pack()
 entry_motor2 = tk.Entry(root)
 entry_motor2.pack(pady=5)
 
-tk.Label(root, text="Enter  position for Motor 3 (degrees):").pack()
+tk.Label(root, text="Enter position for Motor 3 (degrees):").pack()
 entry_motor3 = tk.Entry(root)
 entry_motor3.pack(pady=5)
 

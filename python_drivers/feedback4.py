@@ -7,7 +7,7 @@ import sys
 
 # Define the CAN interface and node IDs
 CAN_INTERFACE = "can0"
-NODE_IDS = [2, 3, 4]  # List of Node IDs for 6 motors
+NODE_IDS = [2, 3, 4]  # List of Node IDs for 3 motors
 DELAY = 0.1  # Delay in seconds for configuration
 monitoring_active = True
 
@@ -54,7 +54,7 @@ def configure_tpdo1(node_id):
     send_can_message(cob_id, "2B18010080000000")
     time.sleep(DELAY)
     # Set COB-ID for TPDO1 (0x280 + Node-ID)
-    tpdo1_cob_id = f"{0x280 + node_id:03X}"
+    tpdo1_cob_id = f"{0x280 + node_id:03X}00"
     send_can_message(cob_id, f"2B180101{tpdo1_cob_id}")
     time.sleep(DELAY)
     # Set transmission type for TPDO1 to event-driven (0x01)
@@ -108,6 +108,8 @@ def interpret_status_word(status_word):
 def interpret_position_value(position_value):
     try:
         position_pulses = int(position_value, 16)
+        if position_pulses & 0x80000000:  # Check if the sign bit is set
+            position_pulses -= 0x100000000  # Convert to signed 32-bit value
         position_degrees = position_pulses * (360.0 / 4000.0)
     except ValueError:
         print(f"Error: Invalid position value {position_value}")
@@ -125,21 +127,29 @@ def monitor_can_response():
         if output:
             print(f"Raw CAN response: {output}")  # Debugging output
             parts = output.split()
+            print(f"Debug: parts: {parts}")  # Print parts for debugging
             if len(parts) > 2:
                 response_cob_id = parts[1]
                 response_data = ''.join(parts[3:])
                 print(f"Debug: COB-ID: {response_cob_id}, Data: {response_data}")  # Additional debug output
                 for node_id in NODE_IDS:
-                    if response_cob_id.startswith(f"{0x280 + node_id:03X}"):  # TPDO1 (0x280 + Node ID)
+                    expected_cob_id = f"{0x580 + node_id:03X}"
+                    print(f"Debug: Comparing {response_cob_id} with expected {expected_cob_id} for node {node_id}")
+                    if response_cob_id == expected_cob_id:  # SDO response (0x580 + Node ID)
+                        print("MATCHED-----")
                         # Extract status word and position actual value from the response data
-                        status_word = response_data[0:4]
-                        position_value = response_data[4:8]
-                        print(f"Debug: Node {node_id}, Status Word: {status_word}, Position Value: {position_value}")  # Additional debug output
-                        status_words[node_id] = status_word
-                        position_values[node_id] = position_value
-                        interpreted_status = interpret_status_word(status_word)
-                        interpreted_position = interpret_position_value(position_value)
-                        print(f"Node {node_id}: {status_word} - {interpreted_status}, {position_value} - {interpreted_position}")
+                        if response_data.startswith("607A"):
+                            position_value = response_data[8:16]
+                            print(f"Debug: Node {node_id}, Position Value: {position_value}")  # Additional debug output
+                            position_values[node_id] = position_value
+                            interpreted_position = interpret_position_value(position_value)
+                            print(f"Node {node_id}: Position {position_value} - {interpreted_position}")
+                        elif response_data.startswith("6041"):
+                            status_word = response_data[8:12]
+                            print(f"Debug: Node {node_id}, Status Word: {status_word}")  # Additional debug output
+                            status_words[node_id] = status_word
+                            interpreted_status = interpret_status_word(status_word)
+                            print(f"Node {node_id}: Status {status_word} - {interpreted_status}")
         time.sleep(DELAY)
     process.terminate()
 

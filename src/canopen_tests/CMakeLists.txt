@@ -22,7 +22,7 @@ generate_dcf(robot_control)
 generate_dcf(scara_control)
 
 install(DIRECTORY
-  launch rviz urdf launch_tests
+  launch rviz urdf launch_tests config
   DESTINATION share/${PROJECT_NAME}
 )
 
