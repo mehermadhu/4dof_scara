@@ -171,7 +171,7 @@ sudo usermod -aG netdev $USER
 sudo usermod -aG dailout $USER
 sudo modprobe can_dev
 sudo modprobe can_raw
-
+pip install --upgrade typing_extensions python-can canopen
 
 ### for USB type
 '''
