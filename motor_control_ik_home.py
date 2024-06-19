@@ -4,19 +4,44 @@ import os
 import time
 import math
 import matplotlib.pyplot as plt
+import configparser
 
 # Conversion factor based on 360 degrees = 4000 pulses
 DEGREES_TO_PULSES = 4000 / 360
 
 # Lengths of the robotic arm links
-L1 = 137.0  # Length of the first link
-L2 = 121.0  # Length of the second link
-L3 = 40.0  # Length of the third link
+L1 = 137.0  # Length of the first link in mm
+L2 = 121.0  # Length of the second link in mm
+L3 = 40.0   # Length of the third link in mm
 
 # Home position angles
 home_theta1 = 0.0
 home_theta2 = 0.0
 home_theta3 = 0.0
+
+# Configuration file path
+CONFIG_FILE = 'robot_config.ini'
+
+def load_home_positions():
+    config = configparser.ConfigParser()
+    config.read(CONFIG_FILE)
+    
+    global home_theta1, home_theta2, home_theta3
+    if 'HomePosition' in config:
+        home_theta1 = float(config['HomePosition'].get('theta1', 0.0))
+        home_theta2 = float(config['HomePosition'].get('theta2', 0.0))
+        home_theta3 = float(config['HomePosition'].get('theta3', 0.0))
+    else:
+        config['HomePosition'] = {'theta1': home_theta1, 'theta2': home_theta2, 'theta3': home_theta3}
+        with open(CONFIG_FILE, 'w') as configfile:
+            config.write(configfile)
+
+def save_home_positions():
+    config = configparser.ConfigParser()
+    config.read(CONFIG_FILE)
+    config['HomePosition'] = {'theta1': home_theta1, 'theta2': home_theta2, 'theta3': home_theta3}
+    with open(CONFIG_FILE, 'w') as configfile:
+        config.write(configfile)
 
 def send_can_command(command):
     print(f"Sending CAN command: {command}")
@@ -54,6 +79,7 @@ def inverse_kinematics(x, y, phi):
 
 def initialize_motors():
     try:
+        load_home_positions()
         accel_time = int(entry_accel_time.get())
         decel_time = int(entry_decel_time.get())
         max_speed = int(entry_max_speed.get())
@@ -61,10 +87,6 @@ def initialize_motors():
         accel_command_le = convert_to_little_endian(accel_time)
         decel_command_le = convert_to_little_endian(decel_time)
         speed_command_le = convert_to_little_endian(max_speed)
-
-        if reverse_var.get():
-            max_speed = -max_speed
-            speed_command_le = convert_to_little_endian_signed(max_speed)
         
         for node in ['602', '603', '604']:
             send_can_command(f"{node}#2B40600000000000")  # Initialization step 0
@@ -203,6 +225,7 @@ def set_home_position():
         home_theta1 = float(entry_home_joint1.get())
         home_theta2 = float(entry_home_joint2.get())
         home_theta3 = float(entry_home_joint3.get())
+        save_home_positions()
         messagebox.showinfo("Set Home Position", "Home position set successfully.")
     except ValueError:
         messagebox.showerror("Invalid Input", "Please enter valid numbers for home joint angles.")
@@ -237,11 +260,6 @@ tk.Label(root, text="Maximum Speed (rpm):").pack()
 entry_max_speed = tk.Entry(root)
 entry_max_speed.insert(0, "60")
 entry_max_speed.pack(pady=5)
-
-# Checkbox for reversing motor direction
-reverse_var = tk.BooleanVar()
-reverse_checkbox = tk.Checkbutton(root, text="Reverse Motor Direction", variable=reverse_var)
-reverse_checkbox.pack(pady=5)
 
 # Input fields for x, y positions and end-effector orientation
 tk.Label(root, text="Enter x position (mm):").pack()
