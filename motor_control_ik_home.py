@@ -12,7 +12,7 @@ DEGREES_TO_PULSES = 4000 / 360
 # Lengths of the robotic arm links
 L1 = 137.0  # Length of the first link in mm
 L2 = 121.0  # Length of the second link in mm
-L3 = 40.0   # Length of the third link in mm
+L3 = 86.6  # Length of the third link in mm
 
 # Home position angles
 home_theta1 = 0.0
